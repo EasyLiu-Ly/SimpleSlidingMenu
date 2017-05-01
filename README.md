@@ -1,6 +1,12 @@
 # SimpleSlidingMenu
 一个简单的Android侧滑菜单，支持left, right,left_right三种菜单模式，支持edge,all两种滑动模式
 
+# 效果如下
+
+每个fragment里面是一个RecyclerView，解决了滑动冲突
+
+![演示效果图](https://github.com/EasyLiu-Ly/SimpleSlidingMenu/blob/master/simpleSlidingMenu.gif)
+
 ## 使用方式如下所示：
 
 
