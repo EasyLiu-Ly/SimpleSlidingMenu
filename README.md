@@ -3,7 +3,7 @@
 
 # 效果如下
 
-每个fragment里面是一个RecyclerView，解决了滑动冲突
+每个Fragment里面是一个RecyclerView，解决了滑动冲突问题
 
 ![演示效果图](https://github.com/EasyLiu-Ly/SimpleSlidingMenu/blob/master/simpleSlidingMenu.gif)
 
@@ -22,18 +22,19 @@
 
   private void initSlideMenuLayout() {
     getSupportFragmentManager().beginTransaction()
-        .replace(SlidingMenuLayout.LEFT_TAG, ItemFragment.newInstance(10))
+        .replace(SlidingMenuLayout.LEFT_TAG, ItemFragment.newInstance(1))
         .commit();
     getSupportFragmentManager().beginTransaction()
-        .replace(SlidingMenuLayout.MIDDLE_TAG, ItemFragment.newInstance(20))
+        .replace(SlidingMenuLayout.MIDDLE_TAG, ItemFragment.newInstance(1))
         .commit();
     getSupportFragmentManager().beginTransaction()
-        .replace(SlidingMenuLayout.RIGHT_TAG, ItemFragment.newInstance(30))
+        .replace(SlidingMenuLayout.RIGHT_TAG, ItemFragment.newInstance(1))
         .commit();
     mSlideMenuLayout.setMenuMode(SlidingMenuLayout.MenuMode.LEFT_RIGHT);
     mSlideMenuLayout.setSlidingMode(SlidingMenuLayout.SlidingMode.EDGE);
     mSlideMenuLayout.setSlideEnable(true);
   }
 ```
-把SlidingMenuLayout作为根布局，左侧，中间，以及右侧菜单布局都会有一个tag，通过给每一个布局设置一个fragment即可！
-具体参考代码中的：MainActivity.java
+* 把SlidingMenuLayout作为根布局
+* 左侧，中间，以及右侧菜单布局都会有一个tag，通过给每一个布局设置一个fragment即可！
+* 具体参考代码中的：MainActivity.java
