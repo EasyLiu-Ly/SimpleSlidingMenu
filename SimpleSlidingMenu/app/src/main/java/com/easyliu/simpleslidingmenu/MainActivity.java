@@ -17,15 +17,15 @@ public class MainActivity extends AppCompatActivity
 
   private void initSlideMenuLayout() {
     getSupportFragmentManager().beginTransaction()
-        .replace(SlidingMenuLayout.LEFT_TAG, ItemFragment.newInstance(10))
+        .replace(SlidingMenuLayout.LEFT_TAG, ItemFragment.newInstance(1))
         .commit();
     getSupportFragmentManager().beginTransaction()
-        .replace(SlidingMenuLayout.MIDDLE_TAG, ItemFragment.newInstance(20))
+        .replace(SlidingMenuLayout.MIDDLE_TAG, ItemFragment.newInstance(1))
         .commit();
     getSupportFragmentManager().beginTransaction()
-        .replace(SlidingMenuLayout.RIGHT_TAG, ItemFragment.newInstance(30))
+        .replace(SlidingMenuLayout.RIGHT_TAG, ItemFragment.newInstance(1))
         .commit();
-    mSlideMenuLayout.setMenuMode(SlidingMenuLayout.MenuMode.LEFT);
+    mSlideMenuLayout.setMenuMode(SlidingMenuLayout.MenuMode.LEFT_RIGHT);
     mSlideMenuLayout.setSlidingMode(SlidingMenuLayout.SlidingMode.EDGE);
     mSlideMenuLayout.setSlideEnable(true);
   }

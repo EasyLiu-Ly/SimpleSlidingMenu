@@ -84,9 +84,6 @@ public class SlidingMenuLayout extends RelativeLayout {
     mLeftLayout.setId(LEFT_TAG);
     mMiddleLayout.setId(MIDDLE_TAG);
     mRightLayout.setId(RIGHT_TAG);
-    mLeftLayout.setBackgroundColor(Color.RED);
-    mMiddleLayout.setBackgroundColor(Color.BLUE);
-    mRightLayout.setBackgroundColor(Color.GRAY);
     mMask = new View(mContext);
     mMaskColor = DEFAULT_MASK_COLOR;
     mMask.setBackgroundColor(mMaskColor);
