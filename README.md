@@ -1,6 +1,5 @@
 # SimpleSlidingMenu
-一个简单的Android侧滑菜单，支持left, right,left_right三种菜单模式，支持edge,all两种滑动模式
-
+一个简单的Android侧滑菜单，支持left, right,left_right三种菜单模式，支持edge,all两种滑动模式，支持设置菜单的宽度，遮罩的颜色
 # 效果如下
 
 每个Fragment里面是一个RecyclerView，解决了滑动冲突问题
@@ -21,18 +20,20 @@
   }
 
   private void initSlideMenuLayout() {
-    getSupportFragmentManager().beginTransaction()
-        .replace(SlidingMenuLayout.LEFT_TAG, ItemFragment.newInstance(1))
-        .commit();
-    getSupportFragmentManager().beginTransaction()
-        .replace(SlidingMenuLayout.MIDDLE_TAG, ItemFragment.newInstance(1))
-        .commit();
-    getSupportFragmentManager().beginTransaction()
-        .replace(SlidingMenuLayout.RIGHT_TAG, ItemFragment.newInstance(1))
-        .commit();
-    mSlideMenuLayout.setMenuMode(SlidingMenuLayout.MenuMode.LEFT_RIGHT);
-    mSlideMenuLayout.setSlidingMode(SlidingMenuLayout.SlidingMode.EDGE);
-    mSlideMenuLayout.setSlideEnable(true);
+        getSupportFragmentManager().beginTransaction()
+                .replace(SlidingMenuLayout.LEFT_TAG, ItemFragment.newInstance(1))
+                .commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(SlidingMenuLayout.MIDDLE_TAG, ItemFragment.newInstance(1))
+                .commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(SlidingMenuLayout.RIGHT_TAG, ItemFragment.newInstance(1))
+                .commit();
+        mSlideMenuLayout.setMenuMode(SlidingMenuLayout.MenuMode.LEFT_RIGHT);
+        mSlideMenuLayout.setSlidingMode(SlidingMenuLayout.SlidingMode.ALL);
+        mSlideMenuLayout.setSlideEnable(true);
+        mSlideMenuLayout.setMaskColor(Color.GRAY);
+        mSlideMenuLayout.setMenuContentWidthRation(0.75f);
   }
 ```
 * 把SlidingMenuLayout作为根布局
