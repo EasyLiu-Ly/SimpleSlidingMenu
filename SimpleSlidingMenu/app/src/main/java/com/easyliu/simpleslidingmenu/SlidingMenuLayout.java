@@ -1,6 +1,7 @@
 package com.easyliu.simpleslidingmenu;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.view.ViewCompat;
@@ -46,6 +47,7 @@ public class SlidingMenuLayout extends RelativeLayout {
     private int mSlideEdgeRightXMin; //边界滑动的时候，RIGHT模式时，落点X轴坐标的最小值
     private boolean mIsBeingDraging;//是否正在拖动，用于事件拦截
     private boolean mIsSlideEnable; //是否使能滑动
+    private boolean mIsMaskEnable;//蒙板是否使能
     private int mActivePointerId = INVALID_POINTER;
     private static final int INVALID_POINTER = -1;
     private VelocityTracker mVelocityTracker;// 速度追踪器
@@ -59,12 +61,15 @@ public class SlidingMenuLayout extends RelativeLayout {
 
     //滑动模式
     public enum SlidingMode {
-        EDGE, ALL
+        EDGE,//边界模式
+        ALL  //全屏模式
     }
 
     //菜单模式
     public enum MenuMode {
-        LEFT, RIGHT, LEFT_RIGHT
+        LEFT, //左菜单
+        RIGHT, //右菜单
+        LEFT_RIGHT //左右菜单
     }
 
     public SlidingMenuLayout(Context context) {
@@ -84,10 +89,14 @@ public class SlidingMenuLayout extends RelativeLayout {
         mLeftLayout.setId(LEFT_TAG);
         mMiddleLayout.setId(MIDDLE_TAG);
         mRightLayout.setId(RIGHT_TAG);
+        mLeftLayout.setBackgroundColor(Color.TRANSPARENT);
+        mMiddleLayout.setBackgroundColor(Color.TRANSPARENT);
+        mRightLayout.setBackgroundColor(Color.TRANSPARENT);
         mMask = new View(mContext);
         mMaskColor = DEFAULT_MASK_COLOR;
         mMask.setBackgroundColor(mMaskColor);
         mMask.setAlpha((float) 0.0);
+        mIsMaskEnable = true;
         mScroller = new Scroller(mContext, new DecelerateInterpolator());
         final ViewConfiguration configuration = ViewConfiguration.get(mContext);
         mTouchSlop = configuration.getScaledTouchSlop();
@@ -197,8 +206,10 @@ public class SlidingMenuLayout extends RelativeLayout {
      * 设置蒙版透明度
      */
     private void setMaskAlpha(int curScrollX) {
-        float alpha = (float) (Math.abs(curScrollX) * 1.0 / mLeftLayout.getWidth());
-        mMask.setAlpha(alpha);
+        if (mIsMaskEnable) {
+            float alpha = (float) (Math.abs(curScrollX) * 1.0 / mLeftLayout.getWidth());
+            mMask.setAlpha(alpha);
+        }
     }
 
     /**
@@ -244,7 +255,14 @@ public class SlidingMenuLayout extends RelativeLayout {
      */
     public void setMenuMode(MenuMode menuMode) {
         mMenuMode = menuMode;
-        switch (menuMode) {
+        setMenuVisibilities();
+    }
+
+    /**
+     * 设置菜单的可见性
+     */
+    private void setMenuVisibilities() {
+        switch (mMenuMode) {
             case LEFT:
                 mLeftLayout.setVisibility(VISIBLE);
                 mRightLayout.setVisibility(GONE);
@@ -253,9 +271,13 @@ public class SlidingMenuLayout extends RelativeLayout {
                 mLeftLayout.setVisibility(GONE);
                 mRightLayout.setVisibility(VISIBLE);
                 break;
-            default:
+            case LEFT_RIGHT:
                 mLeftLayout.setVisibility(VISIBLE);
                 mRightLayout.setVisibility(VISIBLE);
+                break;
+            default:
+                mLeftLayout.setVisibility(GONE);
+                mRightLayout.setVisibility(GONE);
                 break;
         }
     }
@@ -265,6 +287,26 @@ public class SlidingMenuLayout extends RelativeLayout {
      */
     public void setSlideEnable(boolean slideEnable) {
         mIsSlideEnable = slideEnable;
+        if (!slideEnable) {
+            mLeftLayout.setVisibility(GONE);
+            mRightLayout.setVisibility(GONE);
+        } else {
+            setMenuVisibilities();
+        }
+    }
+
+    /**
+     * 设置蒙板是否使能
+     *
+     * @param maskEnable
+     */
+    public void setMaskEnable(boolean maskEnable) {
+        mIsMaskEnable = maskEnable;
+        if (maskEnable) {
+            mMask.setVisibility(VISIBLE);
+        } else {
+            mMask.setVisibility(GONE);
+        }
     }
 
     /**
@@ -442,7 +484,7 @@ public class SlidingMenuLayout extends RelativeLayout {
                                     scrollToLeftMenu(); //左菜单显示
                                     mIsMenuShowing = true;
                                 }
-                                return true;
+                                return true;//直接返回
                             } else {
                                 finalX = Math.max(expectX, -mLeftLayout.getWidth());//最多把左菜单全部滑出
                             }
@@ -457,7 +499,7 @@ public class SlidingMenuLayout extends RelativeLayout {
                                     scrollToRightMenu();//右菜单显示
                                     mIsMenuShowing = true;
                                 }
-                                return true;
+                                return true;//直接返回
                             } else {
                                 finalX = Math.min(expectX, mRightLayout.getWidth());//最多把右菜单全部滑出
                             }
