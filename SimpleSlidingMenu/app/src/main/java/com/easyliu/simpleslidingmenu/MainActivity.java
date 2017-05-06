@@ -31,9 +31,8 @@ public class MainActivity extends AppCompatActivity
         mSlideMenuLayout.setMenuMode(SlidingMenuLayout.MenuMode.LEFT_RIGHT);
         mSlideMenuLayout.setSlidingMode(SlidingMenuLayout.SlidingMode.ALL);
         mSlideMenuLayout.setSlideEnable(true);
-        mSlideMenuLayout.setMaskColor(Color.GRAY);
-        mSlideMenuLayout.setMaskEnable(true);
         mSlideMenuLayout.setMenuContentWidthRation(0.75f);
+        mSlideMenuLayout.setSlideAnimationEnable(true);
     }
 
     @Override

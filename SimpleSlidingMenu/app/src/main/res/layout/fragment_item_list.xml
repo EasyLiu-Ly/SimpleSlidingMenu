@@ -9,5 +9,6 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
+    android:background="@android:color/darker_gray"
     tools:context="com.easyliu.simpleslidingmenu.ItemFragment"
     tools:listitem="@layout/fragment_item" />
