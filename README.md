@@ -29,6 +29,7 @@
         getSupportFragmentManager().beginTransaction()
                 .replace(SlidingMenuLayout.RIGHT_TAG, ItemFragment.newInstance(1))
                 .commit();
+        mSlideMenuLayout.setBackgroundColor(Color.parseColor("#4876FF"));
         mSlideMenuLayout.setMenuMode(SlidingMenuLayout.MenuMode.LEFT_RIGHT);
         mSlideMenuLayout.setSlidingMode(SlidingMenuLayout.SlidingMode.ALL);
         mSlideMenuLayout.setSlideEnable(true);
