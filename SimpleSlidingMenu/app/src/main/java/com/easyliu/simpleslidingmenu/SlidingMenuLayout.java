@@ -57,7 +57,7 @@ public class SlidingMenuLayout extends RelativeLayout {
     private static final int DEFAULT_MINIMUM_SLIDE_FINISH_VELOCITY = 5000;//默认快速滑动时的最小滑动速度,单位为pix/s
     private boolean mIsMenuShowing;//菜单是否显示
     private boolean mIsFastSlideEnable;  //快速滑动标志是否使能
-    private boolean mSlideAnimationEnable;//是否使能滑动动画
+    private IOnMenuOpenListener mOnMenuOpenListener;
 
     //滑动模式
     public enum SlidingMode {
@@ -70,6 +70,19 @@ public class SlidingMenuLayout extends RelativeLayout {
         LEFT, //左菜单
         RIGHT, //右菜单
         LEFT_RIGHT //左右菜单
+    }
+
+    /**
+     * 菜单打开监听
+     */
+    public interface IOnMenuOpenListener {
+        /*
+         * @param menuView 菜单视图
+         * @param middleView 中间视图
+         * @param openPercent 打开的百分比
+         * @param isLeftMenu 是否是左菜单
+         */
+        void menuOpen(View menuView, View middleView, float openPercent, boolean isLeftMenu);
     }
 
     public SlidingMenuLayout(Context context) {
@@ -108,7 +121,6 @@ public class SlidingMenuLayout extends RelativeLayout {
         mIsBeingDraging = false;
         mIsSlideEnable = true;
         mIsFastSlideEnable = false;
-        mSlideAnimationEnable = true;
         addView(mLeftLayout);
         addView(mMiddleLayout);
         addView(mRightLayout);
@@ -178,29 +190,29 @@ public class SlidingMenuLayout extends RelativeLayout {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        if (mSlideAnimationEnable) {
+        if (mOnMenuOpenListener != null && mIsSlideEnable) {
             float scale = 0;
-            float translationXScale = 0;
+            boolean isLeftMenu = true;
             View currentAnimateMenuView = mLeftLayout;
             if (l < 0) {
                 scale = -l * 1.0f / mLeftMenuWidth;//范围是0到1
-                translationXScale = (1 - scale) * 0.6f;//范围是0.6到0
-                currentAnimateMenuView = mLeftLayout;
             } else if (l > 0) {
                 scale = l * 1.0f / mRightMenuWidth;//范围是0到1
-                translationXScale = -(1 - scale) * 0.6f;//范围是-0.6到0
                 currentAnimateMenuView = mRightLayout;
+                isLeftMenu = false;
             }
             Log.d(TAG, scale + "");
-            float menuScale = (float) (0.8 + 0.2 * scale);//0.8到1
-            float contentScale = (float) (1 - 0.2 * scale);//1到0.8
-            currentAnimateMenuView.setScaleX(menuScale);
-            currentAnimateMenuView.setScaleY(menuScale);
-            currentAnimateMenuView.setAlpha(scale);
-            currentAnimateMenuView.setTranslationX(currentAnimateMenuView.getWidth() * translationXScale);
-            mMiddleLayout.setScaleX(contentScale);
-            mMiddleLayout.setScaleY(contentScale);
+            mOnMenuOpenListener.menuOpen(currentAnimateMenuView, mMiddleLayout, scale, isLeftMenu);
         }
+    }
+
+    /**
+     * 设置菜单打开监听
+     *
+     * @param onMenuOpenListener
+     */
+    public void setOnMenuOpenListener(IOnMenuOpenListener onMenuOpenListener) {
+        this.mOnMenuOpenListener = onMenuOpenListener;
     }
 
     /*
@@ -345,13 +357,6 @@ public class SlidingMenuLayout extends RelativeLayout {
      */
     public View getMiddleLayout() {
         return mMiddleLayout;
-    }
-
-    /**
-     * 设置滑动动画是否使能
-     */
-    public void setSlideAnimationEnable(boolean slideAnimationEnable) {
-        mSlideAnimationEnable = slideAnimationEnable;
     }
 
     /**
