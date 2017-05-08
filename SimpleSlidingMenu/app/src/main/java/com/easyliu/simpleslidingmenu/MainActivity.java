@@ -1,5 +1,6 @@
 package com.easyliu.simpleslidingmenu;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(SlidingMenuLayout.RIGHT_TAG, ItemFragment.newInstance(1))
                 .commit();
+        mSlideMenuLayout.setBackgroundColor(Color.parseColor("#4876FF"));
         mSlideMenuLayout.setMenuMode(SlidingMenuLayout.MenuMode.LEFT_RIGHT);
         mSlideMenuLayout.setSlidingMode(SlidingMenuLayout.SlidingMode.ALL);
         mSlideMenuLayout.setSlideEnable(true);
