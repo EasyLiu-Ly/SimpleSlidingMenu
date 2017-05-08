@@ -42,8 +42,8 @@
 * 具体参考代码中的：MainActivity.java
 
 # 关于滑动动画
-关于滑动动画主要看SlidingMenuLayout类当中的onScrollChanged方法，如下所示，可以对这个方法进行修改,来实现各种类型的滑动效果
-
+关于滑动动画主要看SlidingMenuLayout类当中的onScrollChanged方法，如下所示，可以对这个方法进行修改,来实现各种类型的滑动效果，
+ 也可以抽象出一个接口出来，在外部进行动画设置
 ```java
  @Override protected void onScrollChanged(int l, int t, int oldl, int oldt) {
     super.onScrollChanged(l, t, oldl, oldt);
