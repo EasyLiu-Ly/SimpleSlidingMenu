@@ -4,7 +4,7 @@
 
 每个Fragment里面是一个RecyclerView，解决了滑动冲突问题，包含滑动动画
 
-![演示效果图](https://github.com/EasyLiu-Ly/SimpleSlidingMenu/blob/master/simpleSlidingMenu.gif)
+![演示效果图](simpleSlidingMenu.gif)
 
 # 使用方式如下所示：
 
